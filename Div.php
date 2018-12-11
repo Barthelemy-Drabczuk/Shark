@@ -9,7 +9,6 @@
 namespace {
 
 	use Div\DivBuilder;
-	use function PHPSTORM_META\elementType;
 
 	class Div {
 
