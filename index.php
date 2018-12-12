@@ -14,8 +14,11 @@ require_once 'Page.php';
 $page = new Page('page');
 $page->start();
 
-$divBuilder = new \Div\DivBuilder('Bonjour !');
-$divBuilder->title('oui')->dir('rtl');
+$anotherDivBuilder = new \Div\DivBuilder('Salut je suis à l\'intérieur !');
+$anotherDivBuilder->title('inside')->id('ociinside')->data('bird', 'duck')->build();
+$anotherDiv = new Div($anotherDivBuilder);
+$divBuilder = new \Div\DivBuilder('Bonjour !'.$anotherDiv);
+$divBuilder->title('oui')->dir('rtl')->build();
 $div = new Div($divBuilder);
 
 echo $div;

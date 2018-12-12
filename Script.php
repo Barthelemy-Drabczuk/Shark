@@ -1,16 +1,16 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: d17010509
- * Date: 11/12/18
- * Time: 13:03
+ * User: percevase
+ * Date: 12/12/18
+ * Time: 22:47
  */
 
 namespace {
 
-	use Div\DivBuilder;
+	use Script\ScriptBuilder;
 
-	class Div {
+	class Script {
 
 		//HTML Global Attributes
 		private $accesskey;
@@ -29,29 +29,43 @@ namespace {
 		private $title;
 		private $translate;
 
-		//Global Event Attributes incoming
-
+		//Script tag special attributes
+		private $async;
+		private $charset;
+		private $defer;
+		private $src;
+		private $type;
 
 		//Actual content
 		private $content;
 
-		public function __construct (DivBuilder $divBuilder) {
-			$this->accesskey = $divBuilder->getAccesskey();
-			$this->class = $divBuilder->getClass();
-			$this->contenteditable = $divBuilder->getContenteditable();
-			$this->data = $divBuilder->getData();
-			$this->dir = $divBuilder->getDir();
-			$this->draggable = $divBuilder->getDraggable();
-			$this->dropzone = $divBuilder->getDropzone();
-			$this->hidden = $divBuilder->getHidden();
-			$this->id = $divBuilder->getId();
-			$this->lang = $divBuilder->getLang();
-			$this->spellcheck = $divBuilder->getSpellcheck();
-			$this->style = $divBuilder->getStyle();
-			$this->tabindex = $divBuilder->getTabindex();
-			$this->title = $divBuilder->getTitle();
-			$this->translate = $divBuilder->getTranslate();
-			$this->content = $divBuilder->getContent();
+		/**
+		 * Script constructor.
+		 */
+		public function __construct (ScriptBuilder $scriptBuilder) {
+			$this->accesskey = $scriptBuilder->getAccesskey();
+			$this->class = $scriptBuilder->getClass();
+			$this->contenteditable = $scriptBuilder->getContenteditable();
+			$this->data = $scriptBuilder->getData();
+			$this->dir = $scriptBuilder->getDir();
+			$this->draggable = $scriptBuilder->getDraggable();
+			$this->dropzone = $scriptBuilder->getDropzone();
+			$this->hidden = $scriptBuilder->getHidden();
+			$this->id = $scriptBuilder->getId();
+			$this->lang = $scriptBuilder->getLang();
+			$this->spellcheck = $scriptBuilder->getSpellcheck();
+			$this->style = $scriptBuilder->getStyle();
+			$this->tabindex = $scriptBuilder->getTabindex();
+			$this->title = $scriptBuilder->getTitle();
+			$this->translate = $scriptBuilder->getTranslate();
+			$this->async = $scriptBuilder->getAsync();
+			$this->charset = $scriptBuilder->getCharset();
+			$this->defer = $scriptBuilder->getDefer();
+			$this->src = $scriptBuilder->getSrc();
+			$this->type = $scriptBuilder->getType();
+			if (!isset($this->src)) {
+				$this->content = $scriptBuilder->getContent();
+			}
 		}//__construct
 
 		public function __toString () {
@@ -101,16 +115,32 @@ namespace {
 			if (isset($this->translate)) {
 				$actualDiv .= 'translate="'.$this->translate.'" ';
 			}
-			$actualDiv .= '>'.$this->content.'</div>';
+			if (isset($this->charset)) {
+				$actualDiv .= 'charset="'.$this->charset.'" ';
+			}
+			if (isset($this->type)) {
+				$actualDiv .= 'type="'.$this->type.'" ';
+			}
+			if (isset($this->async)) {
+				$actualDiv .= 'async ';
+			}
+			if (isset($this->defer)) {
+				$actualDiv .= 'defer ';
+			}
+			if (isset($this->src)) {
+				$actualDiv .= 'scr="'.$this->src.'" ';
+				$actualDiv .= '></div>';
+			}
+			else {
+				$actualDiv .= '>' . $this->content . '</div>';
+			}
 			return $actualDiv;
 		}//__toString
-
 	}
 }
 
-namespace Div {
-	class DivBuilder {
-
+namespace Script {
+	class ScriptBuilder {
 		//HTML Global Attributes
 		private $accesskey;
 		private $class;
@@ -128,13 +158,21 @@ namespace Div {
 		private $title;
 		private $translate;
 
+		//Script tag special attributes
+		private $async;
+		private $charset;
+		private $defer;
+		private $src;
+		private $type;
+
 		//Actual content
 		private $content;
 
 		/**
 		 * DivBuilder constructor.
+		 * @param string $content
 		 */
-		public function __construct ($content) {
+		public function __construct ($content = '') {
 			$this->content = $content;
 		}
 
@@ -275,16 +313,59 @@ namespace Div {
 			return $this;
 		}
 
+		/**
+		 * @return $this
+		 */
+		public function async () {
+			$this->async = true;
+			return $this;
+		}
+
+		/**
+		 * @param $charset
+		 * @return $this
+		 */
+		public function charset ($charset) {
+			$this->charset = $charset;
+			return $this;
+		}
+
+		/**
+		 * @return $this
+		 */
+		public function defer (){
+			$this->defer = true;
+			return $this;
+		}
+
+		/**
+		 * @param $src
+		 * @return $this
+		 */
+		public function src ($src) {
+			$this->src = $src;
+			return $this;
+		}
+
+		/**
+		 * @param $type
+		 * @return $this
+		 */
+		public function type ($type) {
+			$this->type = $type;
+			return $this;
+		}
+
 		/*builder function*/
 
 		/**
-		 * @return \Div
+		 * @return \Script
 		 */
 		public function build () {
-			return new \Div($this);
+			return new \Script ($this);
 		}
 
-		/*getters to access attributes from Div class*/
+		/*getters to access attributes from Script class*/
 
 		/**
 		 * @return string
@@ -398,6 +479,42 @@ namespace Div {
 		public function getContent () {
 			return $this->content;
 		}
+
+		/**
+		 * @return bool
+		 */
+		public function getAsync () {
+			return $this->async;
+		}
+
+		/**
+		 * @return string
+		 */
+		public function getCharset () {
+			return $this->charset;
+		}
+
+		/**
+		 * @return bool
+		 */
+		public function getDefer () {
+			return $this->defer;
+		}
+
+		/**
+		 * @return string
+		 */
+		public function getSrc () {
+			return $this->src;
+		}
+
+		/**
+		 * @return string
+		 */
+		public function getType () {
+			return $this->type;
+		}
+
 
 	}
 }
