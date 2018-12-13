@@ -29,8 +29,34 @@ namespace {
 		private $title;
 		private $translate;
 
-		//Global Event Attributes incoming
+		//Global Event Attributes
 
+		//Keyboard events
+		private $onkeydown;
+		private $onkeypress;
+		private $onkeyup;
+		//Mouse events
+		private $onclick;
+		private $ondblclick;
+		private $onmousedown;
+		private $onmousemove;
+		private $onmouseout;
+		private $onmouseover;
+		private $onmouseup;
+		private $onwheel;
+		//Drag events
+		private $ondrag;
+		private $ondragend;
+		private $ondragenter;
+		private $ondragleave;
+		private $ondragover;
+		private $ondragstart;
+		private $ondrop;
+		private $onscroll;
+		//Clipboard events
+		private $oncopy;
+		private $oncut;
+		private $onpaste;
 
 		//Actual content
 		private $content;
@@ -51,6 +77,28 @@ namespace {
 			$this->tabindex = $divBuilder->getTabindex();
 			$this->title = $divBuilder->getTitle();
 			$this->translate = $divBuilder->getTranslate();
+			$this->onkeydown = $divBuilder->getOnkeydown();
+			$this->onkeypress = $divBuilder->getOnkeypress();
+			$this->onkeyup = $divBuilder->getOnkeyup();
+			$this->onclick = $divBuilder->getOnclick();
+			$this->ondblclick = $divBuilder->getOndblclick();
+			$this->onmousedown = $divBuilder->getOnmousedown();
+			$this->onmousemove = $divBuilder->getOnmousemove();
+			$this->onmouseout = $divBuilder->getOnmouseout();
+			$this->onmouseover = $divBuilder->getOnmouseover();
+			$this->onmouseup = $divBuilder->getOnmouseup();
+			$this->onwheel = $divBuilder->getOnwheel();
+			$this->ondrag = $divBuilder->getOndrag();
+			$this->ondragend = $divBuilder->getOndragend();
+			$this->ondragenter = $divBuilder->getOndragenter();
+			$this->ondragleave = $divBuilder->getOndragleave();
+			$this->ondragover = $divBuilder->getOndragover();
+			$this->ondragstart = $divBuilder->getOndragstart();
+			$this->ondrop = $divBuilder->getOndrop();
+			$this->onscroll = $divBuilder->getOnscroll();
+			$this->oncopy = $divBuilder->getOncopy();
+			$this->oncut = $divBuilder->getOncut();
+			$this->onpaste = $divBuilder->getOnpaste();
 			$this->content = $divBuilder->getContent();
 		}//__construct
 
@@ -101,6 +149,72 @@ namespace {
 			if (isset($this->translate)) {
 				$actualDiv .= 'translate="'.$this->translate.'" ';
 			}
+			if (isset($this->onkeydown)) {
+				$actualDiv .= 'onkeydown="'.$this->onkeydown->getScript().'" ';
+			}
+			if (isset($this->onkeypress)) {
+				$actualDiv .= 'onkeypress="'.$this->onkeypress->getScript().'" ';
+			}
+			if (isset($this->onkeyup)) {
+				$actualDiv .= 'onkeyup="'.$this->onkeyup->getScript().'" ';
+			}
+			if (isset($this->onclick)) {
+				$actualDiv .= 'onclick="'.$this->onclick->getScript().'" ';
+			}
+			if (isset($this->ondblclick)) {
+				$actualDiv .= 'ondblclick="'.$this->ondblclick->getScript().'" ';
+			}
+			if (isset($this->onmousedown)) {
+				$actualDiv .= 'onmousedown="'.$this->onmousedown->getScript().'" ';
+			}
+			if (isset($this->onmousemove)) {
+				$actualDiv .= 'onmousemove="'.$this->onmousemove->getScript().'" ';
+			}
+			if (isset($this->onmouseout)) {
+				$actualDiv .= 'onmouseout="'.$this->onmouseout->getScript().'" ';
+			}
+			if (isset($this->onmouseover)) {
+				$actualDiv .= 'onmouseover="'.$this->onmouseover->getScript().'" ';
+			}
+			if (isset($this->onmouseup)) {
+				$actualDiv .= 'onmouseup="'.$this->onmouseup->getScript().'" ';
+			}
+			if (isset($this->onwheel)) {
+				$actualDiv .= 'onwheel="'.$this->onwheel->getScript().'" ';
+			}
+			if (isset($this->ondrag)) {
+				$actualDiv .= 'ondrag="'.$this->ondrag->getScript().'" ';
+			}
+			if (isset($this->ondragend)) {
+				$actualDiv .= 'ondragend="'.$this->ondragend->getScript().'" ';
+			}
+			if (isset($this->ondragenter)) {
+				$actualDiv .= 'ondragenter="'.$this->ondragenter->getScript().'" ';
+			}
+			if (isset($this->ondragleave)) {
+				$actualDiv .= 'ondragleave="'.$this->ondragleave->getScript().'" ';
+			}
+			if (isset($this->ondragover)) {
+				$actualDiv .= 'ondragover="'.$this->ondragover->getScript().'" ';
+			}
+			if (isset($this->ondragstart)) {
+				$actualDiv .= 'ondragstart="'.$this->ondragstart->getScript().'" ';
+			}
+			if (isset($this->ondrop)) {
+				$actualDiv .= 'ondrop="'.$this->ondrop->getScript().'" ';
+			}
+			if (isset($this->onscroll)) {
+				$actualDiv .= 'onscroll="'.$this->onscroll->getScript().'" ';
+			}
+			if (isset($this->oncopy)) {
+				$actualDiv .= 'oncopy="'.$this->oncopy->getScript().'" ';
+			}
+			if (isset($this->oncut)) {
+				$actualDiv .= 'oncut="'.$this->oncut->getScript().'" ';
+			}
+			if (isset($this->onpaste)) {
+				$actualDiv .= 'onpaste="'.$this->onpaste->getScript().'" ';
+			}
 			$actualDiv .= '>'.$this->content.'</div>';
 			return $actualDiv;
 		}//__toString
@@ -109,6 +223,7 @@ namespace {
 }
 
 namespace Div {
+
 	class DivBuilder {
 
 		//HTML Global Attributes
@@ -128,6 +243,35 @@ namespace Div {
 		private $title;
 		private $translate;
 
+		//Global Event Attributes
+
+		//Keyboard events
+		private $onkeydown;
+		private $onkeypress;
+		private $onkeyup;
+		//Mouse events
+		private $onclick;
+		private $ondblclick;
+		private $onmousedown;
+		private $onmousemove;
+		private $onmouseout;
+		private $onmouseover;
+		private $onmouseup;
+		private $onwheel;
+		//Drag events
+		private $ondrag;
+		private $ondragend;
+		private $ondragenter;
+		private $ondragleave;
+		private $ondragover;
+		private $ondragstart;
+		private $ondrop;
+		private $onscroll;
+		//Clipboard events
+		private $oncopy;
+		private $oncut;
+		private $onpaste;
+
 		//Actual content
 		private $content;
 
@@ -139,6 +283,7 @@ namespace Div {
 		}
 
 		/* function to make the builder design pattern */
+		//HTML Global attributes
 		/**
 		 * @param $accesskey
 		 * @return $this
@@ -275,6 +420,205 @@ namespace Div {
 			return $this;
 		}
 
+		//HMTL Global Events
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function onkeydown (\Script $script) {
+			$this->onkeydown = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function onkeypress (\Script $script) {
+			$this->onkeypress = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function onkeyup (\Script $script) {
+			$this->onkeyup = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function onclick (\Script $script) {
+			$this->onclick = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function ondblclick (\Script $script) {
+			$this->ondblclick = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function onmousedown (\Script $script) {
+			$this->onmousedown = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function onmousemove (\Script $script) {
+			$this->onmousemove = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function onmouseout (\Script $script) {
+			$this->onmouseout = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function onmouseover (\Script $script) {
+			$this->onmouseover = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function onmouseup (\Script $script) {
+			$this->onmouseup = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function onwheel (\Script $script) {
+			$this->onwheel = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function ondrag (\Script $script) {
+			$this->ondrag = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function ondragend (\Script $script) {
+			$this->ondragend = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function ondragenter (\Script $script) {
+			$this->ondragenter = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function ondragleave (\Script $script) {
+			$this->ondragleave = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function ondragover (\Script $script) {
+			$this->ondragover = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function ondragstart (\Script $script) {
+			$this->ondragstart = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function ondrop (\Script $script) {
+			$this->ondrop = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function onscroll (\Script $script) {
+			$this->onscroll = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function oncopy (\Script $script) {
+			$this->oncopy = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function oncut (\Script $script) {
+			$this->oncut = $script;
+			return $this;
+		}
+
+		/**
+		 * @param \Script $script
+		 * @return $this
+		 */
+		public function onpaste (\Script $script) {
+			$this->onpaste = $script;
+			return $this;
+		}
+
 		/*builder function*/
 
 		/**
@@ -398,6 +742,161 @@ namespace Div {
 		public function getContent () {
 			return $this->content;
 		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOnkeydown () {
+			return $this->onkeydown;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOnkeypress () {
+			return $this->onkeypress;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOnkeyup () {
+			return $this->onkeyup;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOnclick () {
+			return $this->onclick;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOndblclick () {
+			return $this->ondblclick;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOnmousedown () {
+			return $this->onmousedown;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOnmousemove () {
+			return $this->onmousemove;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOnmouseout () {
+			return $this->onmouseout;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOnmouseover () {
+			return $this->onmouseover;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOnmouseup () {
+			return $this->onmouseup;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOnwheel () {
+			return $this->onwheel;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOndrag () {
+			return $this->ondrag;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOndragend () {
+			return $this->ondragend;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOndragenter () {
+			return $this->ondragenter;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOndragleave () {
+			return $this->ondragleave;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOndragover () {
+			return $this->ondragover;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOndragstart () {
+			return $this->ondragstart;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOndrop () {
+			return $this->ondrop;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOnscroll () {
+			return $this->onscroll;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOncopy () {
+			return $this->oncopy;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOncut () {
+			return $this->oncut;
+		}
+
+		/**
+		 * @return \Script
+		 */
+		public function getOnpaste () {
+			return $this->onpaste;
+		}
+
 
 	}
 }

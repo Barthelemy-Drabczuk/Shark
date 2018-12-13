@@ -69,7 +69,7 @@ namespace {
 		}//__construct
 
 		public function __toString () {
-			$actualDiv = '<div ';
+			$actualDiv = '<script ';
 			if (isset($this->accesskey)) {
 				$actualDiv .= 'accesskey="'.$this->accesskey.'" ';
 			}
@@ -128,14 +128,23 @@ namespace {
 				$actualDiv .= 'defer ';
 			}
 			if (isset($this->src)) {
-				$actualDiv .= 'scr="'.$this->src.'" ';
-				$actualDiv .= '></div>';
+				$actualDiv .= 'scr="'.$this->src.'"';
+				$actualDiv .= '></script>';
 			}
 			else {
-				$actualDiv .= '>' . $this->content . '</div>';
+				$actualDiv .= '>' . $this->content . '</script>';
 			}
 			return $actualDiv;
 		}//__toString
+
+		public function getScript () {
+			if (isset($this->content)) {
+				return $this->content;
+			}
+			else {
+				return $this->src;
+			}
+		}
 	}
 }
 
