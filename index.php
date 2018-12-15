@@ -11,9 +11,9 @@
 require_once 'Div.php';
 require_once 'Page.php';
 require_once 'Script.php';
+require_once 'Head.php';
+require_once 'Html.php';
 
-$page = new Page('page');
-$page->start();
 
 $anotherDivBuilder = new \Div\DivBuilder('Salut je suis à l\'intérieur !');
 $anotherDivBuilder->title('inside')->id('ociinside')->data('bird', 'duck')->build();
@@ -30,7 +30,17 @@ $yetAnoyherScript = new Script($yetAnotherScriptBuilder);
 $divBuilder->title('oui')->dir('rtl')->onclick($script)->onpaste($anotherScript);
 $div = new Div($divBuilder);
 
-echo $yetAnoyherScript;
-echo $div;
+$head = new Head($yetAnoyherScript);
+$body = new Body ($div);
 
-$page->end();
+$htmlBuilder = new \Html\HtmlBuilder();
+$htmlBuilder->lang('fr');
+$html = new Html($htmlBuilder, $head, $body);
+$page = new Page('html', $html);
+
+echo $div;
+?>
+<!DOCTYPE html>
+<html lang="fr">
+	<?php echo $div?>
+</html>

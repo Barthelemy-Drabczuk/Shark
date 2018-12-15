@@ -2,15 +2,15 @@
 /**
  * Created by PhpStorm.
  * User: percevase
- * Date: 12/12/18
- * Time: 22:47
+ * Date: 15/12/18
+ * Time: 15:05
  */
 
 namespace {
+	use Html\HtmlBuilder;
 
-	use Script\ScriptBuilder;
-
-	class Script {
+	class Html {
+		private static $error = 'unsetted element';
 
 		//HTML Global Attributes
 		private $accesskey;
@@ -29,43 +29,43 @@ namespace {
 		private $title;
 		private $translate;
 
-		//Script tag special attributes
-		private $async;
-		private $charset;
-		private $defer;
-		private $src;
-		private $type;
-
-		//Actual content
-		private $content;
+		//page content
+		private $head;
+		private $body;
 
 		/**
-		 * Script constructor.
-		 * @param ScriptBuilder $scriptBuilder
+		 * Html constructor.
+		 * @param HtmlBuilder $htmlBuilder
+		 * @param Head $head
+		 * @param Body $body
 		 */
-		public function __construct (ScriptBuilder $scriptBuilder) {
-			$this->accesskey = $scriptBuilder->getAccesskey();
-			$this->class = $scriptBuilder->getClass();
-			$this->contenteditable = $scriptBuilder->getContenteditable();
-			$this->data = $scriptBuilder->getData();
-			$this->dir = $scriptBuilder->getDir();
-			$this->draggable = $scriptBuilder->getDraggable();
-			$this->dropzone = $scriptBuilder->getDropzone();
-			$this->hidden = $scriptBuilder->getHidden();
-			$this->id = $scriptBuilder->getId();
-			$this->lang = $scriptBuilder->getLang();
-			$this->spellcheck = $scriptBuilder->getSpellcheck();
-			$this->style = $scriptBuilder->getStyle();
-			$this->tabindex = $scriptBuilder->getTabindex();
-			$this->title = $scriptBuilder->getTitle();
-			$this->translate = $scriptBuilder->getTranslate();
-			$this->async = $scriptBuilder->getAsync();
-			$this->charset = $scriptBuilder->getCharset();
-			$this->defer = $scriptBuilder->getDefer();
-			$this->src = $scriptBuilder->getSrc();
-			$this->type = $scriptBuilder->getType();
-			if (!isset($this->src)) {
-				$this->content = $scriptBuilder->getContent();
+		public function __construct (HtmlBuilder $htmlBuilder, Head $head, Body $body) {
+			if (isset($htmlBuilder)) {
+				$this->accesskey = $htmlBuilder->getAccesskey();
+				$this->class = $htmlBuilder->getClass();
+				$this->contenteditable = $htmlBuilder->getContenteditable();
+				$this->data = $htmlBuilder->getData();
+				$this->dir = $htmlBuilder->getDir();
+				$this->draggable = $htmlBuilder->getDraggable();
+				$this->dropzone = $htmlBuilder->getDropzone();
+				$this->hidden = $htmlBuilder->getHidden();
+				$this->id = $htmlBuilder->getId();
+				$this->lang = $htmlBuilder->getLang();
+				$this->spellcheck = $htmlBuilder->getSpellcheck();
+				$this->style = $htmlBuilder->getStyle();
+				$this->tabindex = $htmlBuilder->getTabindex();
+				$this->title = $htmlBuilder->getTitle();
+				$this->translate = $htmlBuilder->getTranslate();
+			}
+			if (isset($head)) {
+				$this->head = $head;
+			}
+			if (isset($body)) {
+				$this->body = $body;
+			}
+			else {
+				echo '__construct : '.Html::$error;
+				die;
 			}
 		}//__construct
 
@@ -73,91 +73,63 @@ namespace {
 		 * @return string
 		 */
 		public function __toString () {
-			$actualDiv = '<script ';
+			$htmlTag = '<html ';
 			if (isset($this->accesskey)) {
-				$actualDiv .= 'accesskey="'.$this->accesskey.'" ';
+				$htmlTag .= 'accesskey="'.$this->accesskey.'" ';
 			}
 			if (isset($this->class)) {
-				$actualDiv .= 'class="'.$this->class.'" ';
+				$htmlTag .= 'class="'.$this->class.'" ';
 			}
 			if (isset($this->contenteditable)) {
-				$actualDiv .= 'contenteditable="'.$this->contenteditable.'" ';
+				$htmlTag .= 'contenteditable="'.$this->contenteditable.'" ';
 			}
 			if (isset($this->data)) {
-				$actualDiv .= 'data-'.$this->data[0].'="'.$this->data[1].'" ';
+				$htmlTag .= 'data-'.$this->data[0].'="'.$this->data[1].'" ';
 			}
 			if (isset($this->dir)) {
-				$actualDiv .= 'dir="'.$this->dir.'" ';
+				$htmlTag .= 'dir="'.$this->dir.'" ';
 			}
 			if (isset($this->draggable)) {
-				$actualDiv .= 'draggable="'.$this->draggable.'" ';
+				$htmlTag .= 'draggable'.$this->draggable.'" ';
 			}
 			if (isset($this->dropzone)) {
-				$actualDiv .= 'dropzone="'.$this->dropzone.'" ';
+				$htmlTag .= 'dropzone="'.$this->dropzone.'" ';
 			}
 			if (isset($this->hidden)) {
-				$actualDiv .= 'hidden="'.$this->hidden.'" ';
+				$htmlTag .= 'hidden="'.$this->hidden.'" ';
 			}
 			if (isset($this->id)) {
-				$actualDiv .= 'id="'.$this->id.'" ';
+				$htmlTag .= 'id="'.$this->id.'" ';
 			}
 			if (isset($this->lang)) {
-				$actualDiv .= 'lang="'.$this->lang.'" ';
+				$htmlTag .= 'lang="'.$this->lang.'" ';
 			}
 			if (isset($this->spellcheck)) {
-				$actualDiv .= 'spellcheck="'.$this->spellcheck.'" ';
+				$htmlTag .= 'spellcheck="'.$this->spellcheck.'" ';
 			}
 			if (isset($this->style)) {
-				$actualDiv .= 'style="'.$this->style.'" ';
+				$htmlTag .= 'style="'.$this->style.'" ';
 			}
 			if (isset($this->tabindex)) {
-				$actualDiv .= 'tabindex="'.$this->tabindex.'" ';
+				$htmlTag .= 'tabindex="'.$this->tabindex.'" ';
 			}
 			if (isset($this->title)) {
-				$actualDiv .= 'title="'.$this->title.'" ';
+				$htmlTag .= 'title="'.$this->title.'" ';
 			}
 			if (isset($this->translate)) {
-				$actualDiv .= 'translate="'.$this->translate.'" ';
+				$htmlTag .= 'translate="'.$this->translate.'" ';
 			}
-			if (isset($this->charset)) {
-				$actualDiv .= 'charset="'.$this->charset.'" ';
-			}
-			if (isset($this->type)) {
-				$actualDiv .= 'type="'.$this->type.'" ';
-			}
-			if (isset($this->async)) {
-				$actualDiv .= 'async ';
-			}
-			if (isset($this->defer)) {
-				$actualDiv .= 'defer ';
-			}
-			if (isset($this->src)) {
-				$actualDiv .= 'scr="'.$this->src.'"';
-				$actualDiv .= '></script>';
-			}
-			else {
-				$actualDiv .= '>' . $this->content . '</script>';
-			}
-			return $actualDiv;
-		}//__toString
+			$htmlTag .= '>'.$this->head.PHP_EOL.PHP_EOL.$this->body.PHP_EOL.'</html>';
 
-		/**
-		 * return the script whether it's a path or a hard coded script
-		 * @return string
-		 */
-		public function getScript () {
-			if (isset($this->content)) {
-				return $this->content;
-			}
-			else {
-				return $this->src;
-			}
+			return $htmlTag;
 		}
+
+
 	}
 }
 
-namespace Script {
-	class ScriptBuilder {
+namespace Html {
+	class HtmlBuilder {
 		//HTML Global Attributes
 		private $accesskey;
 		private $class;
@@ -175,25 +147,15 @@ namespace Script {
 		private $title;
 		private $translate;
 
-		//Script tag special attributes
-		private $async;
-		private $charset;
-		private $defer;
-		private $src;
-		private $type;
-
-		//Actual content
-		private $content;
-
 		/**
-		 * DivBuilder constructor.
-		 * @param string $content
+		 * HtmlBuilder constructor.
 		 */
-		public function __construct ($content = '') {
-			$this->content = $content;
+		public function __construct () {
 		}
 
+
 		/* function to make the builder design pattern */
+		//HTML Global attributes
 		/**
 		 * @param $accesskey
 		 * @return $this
@@ -331,60 +293,6 @@ namespace Script {
 		}
 
 		/**
-		 * @return $this
-		 */
-		public function async () {
-			$this->async = true;
-			return $this;
-		}
-
-		/**
-		 * @param $charset
-		 * @return $this
-		 */
-		public function charset ($charset) {
-			$this->charset = $charset;
-			return $this;
-		}
-
-		/**
-		 * @return $this
-		 */
-		public function defer (){
-			$this->defer = true;
-			return $this;
-		}
-
-		/**
-		 * @param $src
-		 * @return $this
-		 */
-		public function src ($src) {
-			$this->src = $src;
-			return $this;
-		}
-
-		/**
-		 * @param $type
-		 * @return $this
-		 */
-		public function type ($type) {
-			$this->type = $type;
-			return $this;
-		}
-
-		/*builder function*/
-
-		/**
-		 * @return \Script
-		 */
-		public function build () {
-			return new \Script ($this);
-		}
-
-		/*getters to access attributes from Script class*/
-
-		/**
 		 * @return string
 		 */
 		public function getAccesskey () {
@@ -406,12 +314,11 @@ namespace Script {
 		}
 
 		/**
-		 * @return array
+		 * @return string
 		 */
 		public function getData () {
 			return $this->data;
 		}
-
 
 		/**
 		 * @return string
@@ -488,48 +395,6 @@ namespace Script {
 		 */
 		public function getTranslate () {
 			return $this->translate;
-		}
-
-		/**
-		 * @return string
-		 */
-		public function getContent () {
-			return $this->content;
-		}
-
-		/**
-		 * @return bool
-		 */
-		public function getAsync () {
-			return $this->async;
-		}
-
-		/**
-		 * @return string
-		 */
-		public function getCharset () {
-			return $this->charset;
-		}
-
-		/**
-		 * @return bool
-		 */
-		public function getDefer () {
-			return $this->defer;
-		}
-
-		/**
-		 * @return string
-		 */
-		public function getSrc () {
-			return $this->src;
-		}
-
-		/**
-		 * @return string
-		 */
-		public function getType () {
-			return $this->type;
 		}
 
 
