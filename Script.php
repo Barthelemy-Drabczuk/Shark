@@ -132,7 +132,7 @@ namespace {
 				$actualDiv .= 'defer ';
 			}
 			if (isset($this->src)) {
-				$actualDiv .= 'scr="'.$this->src.'"';
+				$actualDiv .= 'src="'.$this->src.'"';
 				$actualDiv .= '></script>';
 			}
 			else {

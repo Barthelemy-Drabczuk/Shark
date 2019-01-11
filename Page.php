@@ -10,7 +10,7 @@ class Page {
     private $doctype;
     private $html;
 
-    private static $error = 'Wola remplie le contenu';
+    private static $error = 'Wola rempli le contenu';
 
 	/**
 	 * Page constructor.
@@ -29,7 +29,7 @@ class Page {
     }
 
 	public function __toString () {
-		$page = '<!DOCTYPE '.$this->doctype.'>'.$this->html;
+		$page = '<!DOCTYPE '.$this->doctype.'>'.PHP_EOL.$this->html;
     	return $page;
 	}
 

@@ -119,7 +119,7 @@ namespace {
 			if (isset($this->translate)) {
 				$htmlTag .= 'translate="'.$this->translate.'" ';
 			}
-			$htmlTag .= '>'.$this->head.PHP_EOL.PHP_EOL.$this->body.PHP_EOL.'</html>';
+			$htmlTag .= '>'.PHP_EOL.$this->head.PHP_EOL.PHP_EOL.$this->body.PHP_EOL.'</html>';
 
 			return $htmlTag;
 		}
